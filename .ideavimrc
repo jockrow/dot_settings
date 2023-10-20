@@ -1,0 +1,27 @@
+let mapleader=","
+
+set number
+set relativenumber
+
+""" Plugins  --------------------------------
+set surround
+set multiple-cursors
+set commentary
+set argtextobj
+set easymotion
+set textobj-entire
+set ReplaceWithRegister
+
+" Plug '<plugin-github-reference>'
+" Plug 'easymotion/vim-easymotion'
+
+""" Mappings --------------------------------
+" map <leader>f <Plug>(easymotion-s)
+" map <leader>e <Plug>(easymotion-f)
+" map <space> <Plug>(easymotion-bd-w)
+" TODO:Hacerlo funcionar con esta linea
+" map <space> lua function() require("flash").jump()
+map <space> <space>
+
+
+" map <space> lua require("flash").jump()
