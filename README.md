@@ -20,6 +20,7 @@ brew install fzf
 ```bash
 ln -s -f ~/dot_settings/.tmux.conf ~/.tmux.conf
 ln -s -f ~/dot_settings/.ideavimrc ~/.ideavimrc
+ln -s -f ~/dot_settings/.vimrc ~/.vimrc
 
 mv ~/.config/fish ~/.config/fishBk
 ln -s -f ~/dot_settings/.config/fish ~/.config/fish
