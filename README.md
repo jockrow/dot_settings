@@ -25,13 +25,9 @@ ln -s -f ~/dot_settings/.vimrc ~/.vimrc
 mv ~/.config/fish ~/.config/fishBk
 ln -s -f ~/dot_settings/.config/fish ~/.config/fish
 
-mv ~/.config/omf ~/.config/omfBk
-ln -s -f ~/dot_settings/.config/omf ~/.config/omf
-
 mv ~/.config/ranger ~/.config/rangerBk
 ln -s -f ~/dot_settings/.config/ranger ~/.config/ranger
 
 rm -fr ~/.config/fishBk
-rm -fr ~/.config/omfBk
 rm -fr ~/.config/rangerBk
 ```
