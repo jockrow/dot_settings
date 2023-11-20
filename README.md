@@ -1,5 +1,3 @@
-<!-- TODO: quitar .DS_Store -->
-
 ## Installation
 ```bash
 curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
@@ -31,3 +29,6 @@ ln -s -f ~/dot_settings/.config/ranger ~/.config/ranger
 rm -fr ~/.config/fishBk
 rm -fr ~/.config/rangerBk
 ```
+
+## For more documentation about commands like vim in fish
+https://fishshell.com/docs/current/interactive.html#vi-mode-commands

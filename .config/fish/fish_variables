@@ -3,8 +3,8 @@
 SETUVAR CPPFLAGS:\x2dI/opt/homebrew/opt/openjdk/include
 SETUVAR JAVA_HOME:/opt/homebrew/opt/openjdk/bin
 SETUVAR __fish_initialized:3400
-SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
+SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_command:blue
 SETUVAR fish_color_comment:red
 SETUVAR fish_color_cwd:green

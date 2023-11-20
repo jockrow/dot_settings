@@ -18,7 +18,6 @@ set -gx FZF_CTRL_T_OPTS "
 	--height 80%"
 
 # TODO:ignorar binarios, probar con /Users/richard/devs/java/api_rest/build, y al verificar que funciona poner que ignore las carpetas build y obj
-# TODO:ignorar node_modules con tree y tre
 set -gx FZF_CTRL_T_COMMAND "find . -type f | grep -Ev '\.git|node_modules'"
 
 # List directories
@@ -27,11 +26,20 @@ set -gx FZF_ALT_C_OPTS "--preview 'tree -C {}'
 	--height 80%"
 
 # Alias and showing the command to edit
-abbr -a -g gdb git difftool --dir-diff
+# git compare tool
+abbr -a -g gct git difftool --dir-diff
+
+# tree immproved showing with icons
 abbr -a -g tre eza -T --icons
+
+# list
 abbr -a -g ll eza --long --created --modified --header --git --icons
+
+# list all
 abbr -a -g la eza --all --long --created --modified --header --git --icons
-abbr -a -g tree tree -I 'node_modules | cache |test_*'
+
+# grep 
+abbr -g -g grep grep --exclude-dir={node_modules,.git} -RinH 
 
 # Load Oh My Fish configuration.
 source $OMF_PATH/init.fish
