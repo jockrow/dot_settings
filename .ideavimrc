@@ -23,5 +23,7 @@ set ReplaceWithRegister
 " map <space> lua function() require("flash").jump()
 map <space> <space>
 
+imap jk <Esc>
+vmap jk <Esc>
 
 " map <space> lua require("flash").jump()
