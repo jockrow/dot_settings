@@ -44,6 +44,7 @@ abbr -a -g ll eza --long --created --modified --header --git --icons
 abbr -a -g la eza --all --long --created --modified --header --git --icons
 
 # grep 
+abbr -g -g grep grep --exclude-dir={node_modules,.git} -RinH
 abbr -g -g kgrep kitten hyperlinked_grep
 
 # list images
