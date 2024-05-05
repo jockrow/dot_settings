@@ -32,7 +32,7 @@ set -gx FZF_ALT_C_OPTS "--preview 'tree -C {}'
 abbr -a -g gtu git difftool --dir-diff
 
 # git tool compare stage tool
-abbr -a -g gts git difftool --dir-diff --cached
+abbr -a -g gt git difftool --dir-diff --cached
 
 # tree immproved showing with icons
 abbr -a -g tre eza -T --icons
@@ -44,7 +44,7 @@ abbr -a -g ll eza --long --created --modified --header --git --icons
 abbr -a -g la eza --all --long --created --modified --header --git --icons
 
 # grep 
-abbr -g -g grep grep --exclude-dir={node_modules,.git} -RinH
+abbr -g -g ngrep grep --exclude-dir={node_modules,.git} -RinH
 abbr -g -g kgrep kitten hyperlinked_grep
 
 # list images

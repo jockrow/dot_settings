@@ -4,6 +4,9 @@
 # pyright: reportMjjjg;gImports=false
 import sys
 import subprocess
+
+# import platform
+import os
 import re
 from datetime import datetime
 from kitty.boss import get_boss
@@ -18,6 +21,7 @@ from kitty.tab_bar import (
     draw_attributed_string,
     draw_title,
 )
+
 opts = get_options()
 icon_fg = as_rgb(color_as_int(opts.color15))
 icon_bg = as_rgb(color_as_int(opts.color16))
@@ -132,31 +136,36 @@ def _redraw_tab_bar(_):
         tm.mark_tab_bar_dirty()
 
 
-def get_battery_cells() -> list:
+def get_battery_cells(color) -> list:
     try:
-        if sys.platform.startswith('linux'):
+        if sys.platform.startswith("linux"):
             status_path = "/sys/class/power_supply/BAT0/status"
             capacity_path = "/sys/class/power_supply/BAT0/capacity"
             with open(status_path, "r") as f:
                 status = f.read()
             with open(capacity_path, "r") as f:
                 percent = int(f.read())
-        elif sys.platform == 'darwin':
-            pmset_output = subprocess.check_output(
-                ["pmset", "-g", "batt"]).decode("utf-8")
-            status = re.search(r'\d+%', pmset_output).group()[:-1]
+        elif sys.platform == "darwin":
+            pmset_output = subprocess.check_output(["pmset", "-g", "batt"]).decode(
+                "utf-8"
+            )
+            status = re.search(r"\d+%", pmset_output).group()[:-1]
             percent = int(status)
         else:
             return []
 
-        bat_text_color = color_white
-        icon_color = color_white
+        bat_text_color = color
+        icon_color = color
         if percent <= 10:
             icon_color = color_red
 
-        charging_icons = PLUGGED_ICONS if "discharging" not in pmset_output else UNPLUGGED_ICONS
-        icon = charging_icons[min(
-            charging_icons.keys(), key=lambda x: abs(x - percent))] + "  "
+        charging_icons = (
+            PLUGGED_ICONS if "discharging" not in pmset_output else UNPLUGGED_ICONS
+        )
+        icon = (
+            charging_icons[min(charging_icons.keys(), key=lambda x: abs(x - percent))]
+            + "  "
+        )
 
         percent_cell = (bat_text_color, str(percent) + "% ")
         icon_cell = (icon_color, icon)
@@ -167,9 +176,12 @@ def get_battery_cells() -> list:
 
 def get_wifi_status() -> str:
     try:
-        if sys.platform == 'darwin':
+        if sys.platform == "darwin":
             result = subprocess.run(
-                ["networksetup", "-getairportnetwork", "en0"], capture_output=True, text=True)
+                ["networksetup", "-getairportnetwork", "en0"],
+                capture_output=True,
+                text=True,
+            )
             # output = result.stdout.lower()
             output = result.stdout
             match = re.search(r"(.*Current Wi-Fi Network: )(.*)", output)
@@ -178,20 +190,65 @@ def get_wifi_status() -> str:
                 wifi_network = match.group(2)
                 return f" {wifi_network}"
             else:
-                return "󰤭 " + '\xa0'
-        elif sys.platform.startswith('linux'):
+                return "󰤭 " + "\xa0"
+        elif sys.platform.startswith("linux"):
             result = subprocess.run(
-                ["nmcli", "radio", "wifi"], capture_network=True, text=True)
+                ["nmcli", "radio", "wifi"], capture_network=True, text=True
+            )
             network = result.stdout.lower()
 
             if "enabled" in network:
                 return f"  "
             else:
-                return "󰤭 " + '\xa0'
+                return "󰤭 " + "\xa0"
         else:
-            return "󰤫 " + '\xa0'
+            return "󰤫 " + "\xa0"
     except (subprocess.CalledProcessError, AttributeError):
-        return "󱚼" + '\xa0'
+        return "󱚼" + "\xa0"
+
+
+def get_keyboard_layout():
+    try:
+        if sys.platform == "darwin":
+            plist_path = os.path.expanduser(
+                "~/Library/Preferences/com.apple.HIToolbox.plist"
+            )
+
+            result = subprocess.run(
+                [
+                    "defaults",
+                    "read",
+                    plist_path,
+                    "AppleCurrentKeyboardLayoutInputSourceID",
+                ],
+                capture_output=True,
+                text=True,
+            )
+            layout_identifier = result.stdout.strip()
+
+            result = subprocess.run(
+                ["awk", "-F", ".", "{print $4}"],
+                input=layout_identifier,
+                capture_output=True,
+                text=True,
+            )
+            layout = result.stdout.strip()[0]
+
+            return "[" + layout + "] "
+
+        elif sys.platform.startswith("linux"):
+            result = subprocess.run(
+                ["setxkbmap", "-query"], capture_output=True, text=True
+            )
+            lines = result.stdout.split("\n")
+            layout_line = next(line for line in lines if "layout" in line)
+            layout = layout_line.split(":")[1].strip()
+
+        return layout + "\xa0"
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
 
 
 timer_id = None
@@ -215,10 +272,11 @@ def draw_tab(
     clock = datetime.now().strftime(" %H:%M")
     date = datetime.now().strftime(" %Y-%m-%d")
 
-    cells = get_battery_cells()
-    cells.append((color_grey, get_wifi_status()))
-    cells.append((color_white, date))
-    cells.append((color_white, clock))
+    cells = get_battery_cells(color_white)
+    cells.append((color_grey, get_keyboard_layout()))
+    cells.append((color_white, get_wifi_status()))
+    cells.append((color_grey, date))
+    cells.append((color_grey, clock))
 
     right_status_length = RIGHT_MARGIN
     for cell in cells:
