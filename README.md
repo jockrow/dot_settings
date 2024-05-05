@@ -1,10 +1,10 @@
 ## Installation
 ```bash
+omf install bobthefish
 curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 
 #For git abbreviations
 omf install https://github.com/jhillyerd/plugin-git
-omf install bobthefish
 omf install z
 
 brew install tree
