@@ -1,9 +1,9 @@
-## Installation
+# Installation
 ```bash
 brew install fish
 curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 
-#For git abbreviations
+## For git abbreviations
 omf install https://github.com/jhillyerd/plugin-git
 omf install bobthefish
 omf install z
@@ -14,8 +14,14 @@ brew install eza
 brew install fzf
 brew install kitty
 
-# for preview images in ranger with kitty
+
+## For preview images in ranger with kitty
 pip install pillow ranger-fm
+```
+
+## Clone this project
+```sh
+git clone https://github.com/jockrow/dot_settings.git ~/dot_settings/
 ```
 
 ## Create symbolic links
@@ -37,6 +43,8 @@ rm -fr ~/.config/fishBk
 rm -fr ~/.config/rangerBk
 rm -fr ~/.config/kittyBk
 ```
+
+# Documentation
 
 ## For more documentation about commands like vim in fish
 https://fishshell.com/docs/current/interactive.html#vi-mode-commands
